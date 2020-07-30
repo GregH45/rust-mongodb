@@ -1,8 +1,5 @@
 use bson::doc;
 use tokio;
-// use bson::oid::ObjectId;
-// use std;
-// use std::io;
 
 use mongodb::error::Error;
 
