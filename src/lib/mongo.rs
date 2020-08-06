@@ -1,6 +1,5 @@
 use mongodb;
-use mongodb::Client;
-use mongodb::error::Result;
+use mongodb::sync::Client;
 use mongodb::options::{ClientOptions, StreamAddress};
 
 use dotenv;
@@ -8,7 +7,7 @@ use dotenv;
 const DEFAULT_MONGO_ADDRESS: &'static str = "127.0.0.1";
 const DEFAULT_MONGO_PORT: u16 = 27017;
 
-pub fn establish_connection() -> Result<Client> {
+pub fn establish_connection() -> Client {
     let database_url = match dotenv::var("MONGO_ADDRESS") {
         Ok(value) => value,
         Err(_) => DEFAULT_MONGO_ADDRESS.to_string(),
@@ -26,7 +25,7 @@ pub fn establish_connection() -> Result<Client> {
         }])
         .build();
 
-    let client = Client::with_options(options);
+    let client = Client::with_options(options).ok().expect("Fail to initialize client");
     
     client
 }
